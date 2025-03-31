@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Typography, Box, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
 import FuzzyTopsisForm from './components/FuzzyTopsisForm';
 import FuzzyTopsisResults from './components/FuzzyTopsisResults';
-import { processFuzzyTopsis } from './utils/fuzzyTopsis';
 
 // Create a theme instance
 const theme = createTheme({
@@ -19,10 +18,42 @@ const theme = createTheme({
 function App() {
   const [results, setResults] = useState(null);
 
+  const [pyodide, setPyodide] = useState(null);
+  const [loadingPyodide, setLoadingPyodide] = useState(true);
+
+  useEffect(() => {
+    async function loadPyodideAndPackages() {
+      try {
+        const pyodideInstance = await window.loadPyodide();
+        await pyodideInstance.loadPackage("micropip");
+        await pyodideInstance.runPythonAsync(`
+          import micropip
+          await micropip.install("sad-cin")
+          from sad_cin import decision_support
+          import json
+          
+          def get_results(json_str):
+              data = json.loads(json_str)
+              result = decision_support(data)
+              return json.dumps(result)
+          `);
+        setPyodide(pyodideInstance);
+      } catch (error) {
+        console.error("Erro ao carregar o Pyodide:", error);
+      } finally {
+        setLoadingPyodide(false);
+      }
+    }
+    loadPyodideAndPackages();
+  }, []);
+
   const handleCalculate = (data) => {
     try {
-      const calculatedResults = processFuzzyTopsis(data);
-      setResults(calculatedResults);
+      const calculateResults = pyodide.globals.get("fuzzy_topsis");
+      
+      const results = calculateResults(JSON.stringify(data));
+
+      setResults(JSON.parse(results));
     } catch (error) {
       console.error('Erro ao calcular resultados:', error);
       alert('Erro ao calcular resultados. Por favor, verifique os dados inseridos.');
