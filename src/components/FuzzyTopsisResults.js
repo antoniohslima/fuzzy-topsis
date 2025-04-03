@@ -12,9 +12,11 @@ import {
 } from '@mui/material';
 
 const FuzzyTopsisResults = ({ results }) => {
-  if (!results) return null;
+  console.log('FuzzyTopsisResults', results);
+  
+  if (!results || !results.results) return null;
 
-  const { distances, rankings, sortedAlternatives, bestAlternative } = results;
+  const { proximities, ranking, best_alternative, distances } = results.results;
 
   return (
     <Paper elevation={3} sx={{ p: 3, my: 2 }}>
@@ -24,7 +26,7 @@ const FuzzyTopsisResults = ({ results }) => {
 
       <Box sx={{ mb: 3 }}>
         <Typography variant="subtitle1" color="primary" gutterBottom>
-          Melhor Alternativa: {bestAlternative}
+          Melhor Alternativa: {best_alternative}
         </Typography>
       </Box>
 
@@ -41,18 +43,18 @@ const FuzzyTopsisResults = ({ results }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedAlternatives.map((alt, index) => (
+            {ranking.map((alt, index) => (
               <TableRow
                 key={alt}
                 sx={
-                  alt === bestAlternative
+                  alt === best_alternative
                     ? { backgroundColor: 'rgba(76, 175, 80, 0.1)' }
                     : {}
                 }
               >
                 <TableCell>{index + 1}º</TableCell>
                 <TableCell>{alt}</TableCell>
-                <TableCell>{rankings[alt].toFixed(4)}</TableCell>
+                <TableCell>{proximities[alt].toFixed(4)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -72,18 +74,18 @@ const FuzzyTopsisResults = ({ results }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedAlternatives.map((alt) => (
+            {ranking.map((alt) => (
               <TableRow
                 key={alt}
                 sx={
-                  alt === bestAlternative
+                  alt === best_alternative
                     ? { backgroundColor: 'rgba(76, 175, 80, 0.1)' }
                     : {}
                 }
               >
                 <TableCell>{alt}</TableCell>
-                <TableCell>{distances[alt].dPlus.toFixed(4)}</TableCell>
-                <TableCell>{distances[alt].dMinus.toFixed(4)}</TableCell>
+                <TableCell>{distances[alt].ideal.toFixed(4)}</TableCell>
+                <TableCell>{distances[alt].negative_ideal.toFixed(4)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
