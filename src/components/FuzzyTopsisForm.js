@@ -497,26 +497,35 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3, my: 2 }}>
+    <Paper elevation={3} sx={{ p: { xs: 1, sm: 2, md: 3 }, my: 2 }}>
       <form onSubmit={handleSubmit}>
         <Typography variant="h6" gutterBottom>
           Dados de Entrada Fuzzy TOPSIS
         </Typography>
 
         {/* Linguistic Variables Button */}
-        <Box sx={{ mb: 3, display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ mb: 3, display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
           <Button
             variant="outlined"
             startIcon={<InfoIcon />}
             onClick={openLinguisticTable}
+            fullWidth={false}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
           >
             Variáveis Linguísticas
           </Button>
         </Box>
 
         {/* Step 1: Critérios Section */}
-        <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Paper variant="outlined" sx={{ p: { xs: 1, sm: 2 }, mb: 3 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between', 
+            alignItems: { xs: 'flex-start', sm: 'center' }, 
+            mb: 2,
+            gap: { xs: 2, sm: 0 }
+          }}>
             <Box>
               <Typography variant="subtitle1" fontWeight="bold">
                 Passo 1: Critérios
@@ -525,12 +534,20 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                 Defina os critérios de avaliação, seus tipos e pesos
               </Typography>
             </Box>
-            <Box>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: { xs: 1, sm: 1 },
+              width: { xs: '100%', sm: 'auto' }
+            }}>
               <Button
                 variant="outlined"
                 size="small"
                 onClick={() => openBulkInput('criteria')}
-                sx={{ mr: 1 }}
+                sx={{ 
+                  mr: { xs: 0, sm: 1 },
+                  width: { xs: '100%', sm: 'auto' }
+                }}
               >
                 Adicionar em Massa
               </Button>
@@ -539,6 +556,7 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                 onClick={addCriterion}
                 variant="outlined"
                 size="small"
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
               >
                 Adicionar Critério
               </Button>
@@ -582,7 +600,12 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                   <Typography variant="caption" display="block" gutterBottom>
                     Pesos
                   </Typography>
-                  <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    gap: 1, 
+                    mb: 1 
+                  }}>
                     {[0, 1, 2].map((index) => (
                       <TextField
                         key={`weight-${crit}-${index}`}
@@ -597,10 +620,17 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                         onChange={(e) =>
                           handleWeightChange(crit, index, e.target.value)
                         }
+                        sx={{ flex: 1 }}
                       />
                     ))}
                     <Tooltip title="Inserir em massa">
-                      <IconButton size="small" onClick={() => openWeightInput(crit)}>
+                      <IconButton 
+                        size="small" 
+                        onClick={() => openWeightInput(crit)}
+                        sx={{ 
+                          alignSelf: { xs: 'flex-end', sm: 'center' }
+                        }}
+                      >
                         <AddIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -630,8 +660,15 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
         </Paper>
 
         {/* Step 2: Alternativas Section */}
-        <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Paper variant="outlined" sx={{ p: { xs: 1, sm: 2 }, mb: 3 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between', 
+            alignItems: { xs: 'flex-start', sm: 'center' }, 
+            mb: 2,
+            gap: { xs: 2, sm: 0 }
+          }}>
             <Box>
               <Typography variant="subtitle1" fontWeight="bold">
                 Passo 2: Alternativas
@@ -640,12 +677,20 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                 Defina as alternativas a serem avaliadas
               </Typography>
             </Box>
-            <Box>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: { xs: 1, sm: 1 },
+              width: { xs: '100%', sm: 'auto' }
+            }}>
               <Button
                 variant="outlined"
                 size="small"
                 onClick={() => openBulkInput('alternatives')}
-                sx={{ mr: 1 }}
+                sx={{ 
+                  mr: { xs: 0, sm: 1 },
+                  width: { xs: '100%', sm: 'auto' }
+                }}
               >
                 Adicionar em Massa
               </Button>
@@ -654,6 +699,7 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                 onClick={addAlternative}
                 variant="outlined"
                 size="small"
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
               >
                 Adicionar Alternativa
               </Button>
@@ -674,7 +720,14 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                 flexWrap: 'wrap', 
                 gap: 3,
                 justifyContent: 'flex-start',
-                '& > *': { flex: '0 0 calc(33.333% - 16px)', minWidth: '200px' }
+                '& > *': { 
+                  flex: { 
+                    xs: '0 0 100%', 
+                    sm: '0 0 calc(50% - 12px)', 
+                    md: '0 0 calc(33.333% - 16px)' 
+                  }, 
+                  minWidth: { xs: '100%', sm: 'calc(50% - 12px)', md: '200px' } 
+                }
               }}>
                 {formData.alternatives.slice(rowIndex * 3, (rowIndex + 1) * 3).map((alt, index) => {
                   const altIndex = rowIndex * 3 + index;
@@ -728,14 +781,23 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
         </Paper>
 
         {/* Step 3: Matriz de Desempenho Section */}
-        <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
-              Passo 3: Matriz de Desempenho
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Defina os valores de desempenho para cada alternativa em relação a cada critério
-            </Typography>
+        <Paper variant="outlined" sx={{ p: { xs: 1, sm: 2 }, mb: 3 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between', 
+            alignItems: { xs: 'flex-start', sm: 'center' }, 
+            mb: 2,
+            gap: { xs: 2, sm: 0 }
+          }}>
+            <Box>
+              <Typography variant="subtitle1" fontWeight="bold">
+                Passo 3: Matriz de Desempenho
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Defina os valores de desempenho para cada alternativa em relação a cada critério
+              </Typography>
+            </Box>
           </Box>
           
           {validationErrors.performance && (
@@ -759,43 +821,74 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
             },
           }}>
             <Box sx={{ 
-              minWidth: Math.max(800, 150 + (formData.criteria.length * 250)),
+              minWidth: { 
+                xs: Math.max(600, 100 + (formData.criteria.length * 200)),
+                sm: Math.max(800, 150 + (formData.criteria.length * 250))
+              },
               width: '100%'
             }}>
               {/* Header row with criteria names */}
               <Box sx={{ 
                 display: 'grid', 
-                gridTemplateColumns: `150px repeat(${formData.criteria.length}, 1fr)`, 
-                gap: 2, 
+                gridTemplateColumns: { 
+                  xs: `100px repeat(${formData.criteria.length}, 1fr)`,
+                  sm: `150px repeat(${formData.criteria.length}, 1fr)`
+                }, 
+                gap: { xs: 1, sm: 2 }, 
                 width: '100%',
                 mb: 2,
                 borderBottom: '1px solid',
                 borderColor: 'divider',
                 pb: 1
               }}>
-                <Box sx={{ gridColumn: 'span 1' }}>
+                <Box sx={{ 
+                  gridColumn: 'span 1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  bgcolor: 'primary.main',
+                  color: 'primary.contrastText',
+                  borderRadius: 1,
+                  p: 1
+                }}>
                   <Typography variant="subtitle1" fontWeight="medium">Alternativa</Typography>
                 </Box>
                 {formData.criteria.map((crit) => (
-                  <Box sx={{ gridColumn: 'span 1' }} key={crit}>
+                  <Box 
+                    sx={{ 
+                      gridColumn: 'span 1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      bgcolor: 'primary.main',
+                      color: 'primary.contrastText',
+                      borderRadius: 1,
+                      p: 1
+                    }} 
+                    key={crit}
+                  >
                     <Typography variant="subtitle1" fontWeight="medium">{crit}</Typography>
                   </Box>
                 ))}
               </Box>
 
               {/* Performance matrix rows */}
-              {formData.alternatives.map((alt) => (
+              {formData.alternatives.map((alt, altIndex) => (
                 <Box 
                   sx={{ 
                     display: 'grid', 
-                    gridTemplateColumns: `150px repeat(${formData.criteria.length}, 1fr)`, 
-                    gap: 2, 
+                    gridTemplateColumns: { 
+                      xs: `100px repeat(${formData.criteria.length}, 1fr)`,
+                      sm: `150px repeat(${formData.criteria.length}, 1fr)`
+                    }, 
+                    gap: { xs: 1, sm: 2 }, 
                     width: '100%',
                     mb: 3,
                     p: 1,
                     borderRadius: 1,
+                    bgcolor: altIndex % 2 === 0 ? 'background.paper' : 'action.hover',
                     '&:hover': {
-                      bgcolor: 'action.hover'
+                      bgcolor: 'action.selected'
                     }
                   }} 
                   key={alt}
@@ -808,9 +901,27 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                     bgcolor: 'primary.light',
                     color: 'primary.contrastText',
                     borderRadius: 1,
-                    p: 1
+                    p: 1,
+                    position: 'relative'
                   }}>
                     <Typography variant="subtitle1" fontWeight="medium">{alt}</Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => removeAlternative(altIndex)}
+                      color="error"
+                      sx={{
+                        position: 'absolute',
+                        right: 4,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'error.main',
+                        '&:hover': {
+                          bgcolor: 'error.light'
+                        }
+                      }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </Box>
                   {formData.criteria.map((crit, critIndex) => (
                     <Box 
@@ -819,11 +930,17 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 1,
-                        p: 1,
+                        p: 1.5,
                         borderRadius: 1,
                         border: '1px solid',
                         borderColor: 'divider',
-                        minWidth: '200px'
+                        minWidth: { xs: '150px', sm: '200px' },
+                        bgcolor: 'background.paper',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          boxShadow: 1,
+                          borderColor: 'primary.light'
+                        }
                       }} 
                       key={`${alt}-${crit}`}
                     >
@@ -833,19 +950,30 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                         alignItems: 'center',
                         mb: 0.5
                       }}>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 'medium' }}>
                           Valores Fuzzy (l, m, u)
                         </Typography>
                         <Tooltip title="Inserir em massa">
                           <IconButton 
                             size="small" 
                             onClick={() => openPerformanceInput(alt, crit)}
+                            sx={{
+                              color: 'primary.main',
+                              '&:hover': {
+                                bgcolor: 'primary.light'
+                              }
+                            }}
                           >
                             <AddIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
                       </Box>
-                      <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                      <Box sx={{ 
+                        display: 'flex', 
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        gap: 1, 
+                        mb: 1 
+                      }}>
                         {[0, 1, 2].map((valueIndex) => (
                           <TextField
                             key={`${alt}-${crit}-${valueIndex}`}
@@ -867,7 +995,14 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                                 e.target.value
                               )
                             }
-                            sx={{ flex: 1 }}
+                            sx={{ 
+                              flex: 1,
+                              '& .MuiOutlinedInput-root': {
+                                '&:hover fieldset': {
+                                  borderColor: 'primary.light',
+                                },
+                              },
+                            }}
                           />
                         ))}
                       </Box>
@@ -877,6 +1012,14 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
                           value={selectedRatingTerms[`${alt}-${critIndex}`] || ""}
                           label="Termo Linguístico"
                           onChange={(e) => applyLinguisticRating(alt, critIndex, e.target.value)}
+                          sx={{
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'divider',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'primary.light',
+                            },
+                          }}
                         >
                           <MenuItem value="" disabled>
                             <em>Selecione um termo</em>
@@ -896,13 +1039,27 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
           </Box>
         </Paper>
 
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Button 
+          type="submit" 
+          variant="contained" 
+          color="primary" 
+          fullWidth
+          sx={{ 
+            mt: { xs: 2, sm: 3 },
+            py: { xs: 1.5, sm: 2 }
+          }}
+        >
           Calcular
         </Button>
       </form>
 
       {/* Dialog for naming alternatives and criteria */}
-      <Dialog open={dialogOpen} onClose={closeDialog}>
+      <Dialog 
+        open={dialogOpen} 
+        onClose={closeDialog}
+        fullWidth
+        maxWidth="xs"
+      >
         <DialogTitle>
           {dialogType === 'alternative' ? 'Adicionar Alternativa' : 'Adicionar Critério'}
         </DialogTitle>
@@ -918,7 +1075,7 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
             onChange={(e) => setDialogName(e.target.value)}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={closeDialog}>Cancelar</Button>
           <Button onClick={handleDialogSubmit} variant="contained" color="primary">
             Adicionar
@@ -927,7 +1084,12 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
       </Dialog>
 
       {/* Dialog for bulk input */}
-      <Dialog open={bulkInputOpen} onClose={closeBulkInput}>
+      <Dialog 
+        open={bulkInputOpen} 
+        onClose={closeBulkInput}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>
           {bulkInputType === 'alternatives' ? 'Adicionar Alternativas em Massa' : 'Adicionar Critérios em Massa'}
         </DialogTitle>
@@ -942,9 +1104,11 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
             variant="outlined"
             value={bulkInputValue}
             onChange={(e) => setBulkInputValue(e.target.value)}
+            multiline
+            rows={3}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={closeBulkInput}>Cancelar</Button>
           <Button onClick={handleBulkInputSubmit} variant="contained" color="primary">
             Adicionar
@@ -953,7 +1117,12 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
       </Dialog>
 
       {/* Dialog for performance input */}
-      <Dialog open={performanceInputOpen} onClose={closePerformanceInput}>
+      <Dialog 
+        open={performanceInputOpen} 
+        onClose={closePerformanceInput}
+        fullWidth
+        maxWidth="xs"
+      >
         <DialogTitle>
           Inserir Valor de Desempenho
         </DialogTitle>
@@ -976,7 +1145,7 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
             onChange={(e) => setPerformanceInputValue(e.target.value)}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={closePerformanceInput}>Cancelar</Button>
           <Button onClick={handlePerformanceInputSubmit} variant="contained" color="primary">
             Adicionar
@@ -985,7 +1154,12 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
       </Dialog>
 
       {/* Dialog for weight input */}
-      <Dialog open={weightInputOpen} onClose={closeWeightInput}>
+      <Dialog 
+        open={weightInputOpen} 
+        onClose={closeWeightInput}
+        fullWidth
+        maxWidth="xs"
+      >
         <DialogTitle>
           Inserir Peso do Critério
         </DialogTitle>
@@ -1005,7 +1179,7 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
             onChange={(e) => setWeightInputValue(e.target.value)}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={closeWeightInput}>Cancelar</Button>
           <Button onClick={handleWeightInputSubmit} variant="contained" color="primary">
             Adicionar
@@ -1027,60 +1201,90 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
           <Typography variant="subtitle1" gutterBottom sx={{ mt: 1 }}>
             Pesos dos Critérios
           </Typography>
-          <TableContainer component={Paper} variant="outlined" sx={{ mb: 3 }}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Termo Linguístico</TableCell>
-                  <TableCell align="center">Valor Inferior (l)</TableCell>
-                  <TableCell align="center">Valor Médio (m)</TableCell>
-                  <TableCell align="center">Valor Superior (u)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {linguisticVariables.weights.map((term) => (
-                  <TableRow key={term.label}>
-                    <TableCell component="th" scope="row">
-                      {term.label}
-                    </TableCell>
-                    <TableCell align="center">{term.values[0]}</TableCell>
-                    <TableCell align="center">{term.values[1]}</TableCell>
-                    <TableCell align="center">{term.values[2]}</TableCell>
+          <Box sx={{ 
+            overflowX: 'auto',
+            maxWidth: '100%',
+            '&::-webkit-scrollbar': {
+              height: 8,
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'background.paper',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'primary.light',
+              borderRadius: 4,
+            },
+          }}>
+            <TableContainer component={Paper} variant="outlined" sx={{ mb: 3 }}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Termo Linguístico</TableCell>
+                    <TableCell align="center">Valor Inferior (l)</TableCell>
+                    <TableCell align="center">Valor Médio (m)</TableCell>
+                    <TableCell align="center">Valor Superior (u)</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {linguisticVariables.weights.map((term) => (
+                    <TableRow key={term.label}>
+                      <TableCell component="th" scope="row">
+                        {term.label}
+                      </TableCell>
+                      <TableCell align="center">{term.values[0]}</TableCell>
+                      <TableCell align="center">{term.values[1]}</TableCell>
+                      <TableCell align="center">{term.values[2]}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
 
           <Typography variant="subtitle1" gutterBottom>
             Avaliações de Desempenho
           </Typography>
-          <TableContainer component={Paper} variant="outlined">
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Termo Linguístico</TableCell>
-                  <TableCell align="center">Valor Inferior (l)</TableCell>
-                  <TableCell align="center">Valor Médio (m)</TableCell>
-                  <TableCell align="center">Valor Superior (u)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {linguisticVariables.ratings.map((term) => (
-                  <TableRow key={term.label}>
-                    <TableCell component="th" scope="row">
-                      {term.label}
-                    </TableCell>
-                    <TableCell align="center">{term.values[0]}</TableCell>
-                    <TableCell align="center">{term.values[1]}</TableCell>
-                    <TableCell align="center">{term.values[2]}</TableCell>
+          <Box sx={{ 
+            overflowX: 'auto',
+            maxWidth: '100%',
+            '&::-webkit-scrollbar': {
+              height: 8,
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'background.paper',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'primary.light',
+              borderRadius: 4,
+            },
+          }}>
+            <TableContainer component={Paper} variant="outlined">
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Termo Linguístico</TableCell>
+                    <TableCell align="center">Valor Inferior (l)</TableCell>
+                    <TableCell align="center">Valor Médio (m)</TableCell>
+                    <TableCell align="center">Valor Superior (u)</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {linguisticVariables.ratings.map((term) => (
+                    <TableRow key={term.label}>
+                      <TableCell component="th" scope="row">
+                        {term.label}
+                      </TableCell>
+                      <TableCell align="center">{term.values[0]}</TableCell>
+                      <TableCell align="center">{term.values[1]}</TableCell>
+                      <TableCell align="center">{term.values[2]}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={closeLinguisticTable}>Fechar</Button>
         </DialogActions>
       </Dialog>
@@ -1092,7 +1296,14 @@ const FuzzyTopsisForm = ({ onSubmit }) => {
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+        <Alert 
+          onClose={handleSnackbarClose} 
+          severity={snackbarSeverity} 
+          sx={{ 
+            width: '100%',
+            maxWidth: { xs: '90%', sm: '400px' }
+          }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
