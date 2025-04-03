@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
 import FuzzyTopsisForm from './components/FuzzyTopsisForm';
 import FuzzyTopsisResults from './components/FuzzyTopsisResults';
@@ -37,6 +37,7 @@ function App() {
               result = decision_support(data)
               return json.dumps(result)
           `);
+
         setPyodide(pyodideInstance);
       } catch (error) {
         console.error("Erro ao carregar o Pyodide:", error);
